@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Auth0 } from "@/components/auth/Auth0Login"
+import { Auth0 } from "@/components/auth/Auth0"
 import { SigninForm } from "@/components/auth/SigninForm"
 
 export default function page() {
