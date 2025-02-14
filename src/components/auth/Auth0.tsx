@@ -1,15 +1,27 @@
 "use client"
 
 import Image from "next/image"
-import { signIn } from "next-auth/react"
+import { toast } from "sonner"
 
+import { authClient } from "@/lib/auth.config"
 import { Button } from "@/components/ui/button"
 
 export const Auth0 = () => {
-  const handleAuth = (provider: "google" | "github" | "twitter") => {
-    signIn(provider, {
-      redirectTo: "/dashboard",
-    })
+  const handleAuth = async (provider: "google" | "github" | "twitter") => {
+    await authClient.signIn.social(
+      {
+        provider,
+        callbackURL: "/overview",
+      },
+      {
+        onSuccess: () => {
+          toast.success("Sign up successfully")
+        },
+        onError: (error) => {
+          toast.error(error.error.message)
+        },
+      },
+    )
   }
 
   return (

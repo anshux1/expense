@@ -7,7 +7,10 @@ async function seedUsers() {
       update: { email: "example@gmail.com" },
       create: {
         email: "example@gmail.com",
-        password: "1234",
+        createdAt: new Date(),
+        emailVerified: false,
+        updatedAt: new Date(),
+        id: "gqnaQDj2B6oXj4NcnLc",
         name: "example",
       },
     })
