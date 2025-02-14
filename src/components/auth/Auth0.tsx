@@ -33,7 +33,12 @@ export const Auth0 = () => {
           className="w-full"
           onClick={() => handleAuth("google")}
         >
-          <Image src="/social/google.svg" alt="Google logo" width={20} height={20} />
+          <Image
+            src="/social/google.svg"
+            alt="Google logo"
+            width={20}
+            height={20}
+          />
           Login with Google
         </Button>
         <Button
@@ -42,7 +47,12 @@ export const Auth0 = () => {
           className="w-full"
           onClick={() => handleAuth("twitter")}
         >
-          <Image src="/social/twitter.svg" alt="Google logo" width={20} height={20} />
+          <Image
+            src="/social/twitter.svg"
+            alt="Google logo"
+            width={20}
+            height={20}
+          />
           Login with X
         </Button>
         <Button
@@ -51,7 +61,12 @@ export const Auth0 = () => {
           className="w-full"
           onClick={() => handleAuth("github")}
         >
-          <Image src="/social/github.svg" alt="Google logo" width={20} height={20} />
+          <Image
+            src="/social/github.svg"
+            alt="Google logo"
+            width={20}
+            height={20}
+          />
           Login with Github
         </Button>
       </div>

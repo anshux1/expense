@@ -1,19 +1,21 @@
 import { NextRequest, NextResponse } from "next/server"
 import { getSessionCookie } from "better-auth"
 
-import { authRoutes, DEFAULT_REDIRECT, publicRoutes } from "@/lib/auth.routes"
+import { DEFAULT_REDIRECT, route } from "@/lib/auth.routes"
 
 export async function middleware(request: NextRequest) {
   const { nextUrl } = request
   const isLoggedIn = getSessionCookie(request)
 
-  const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
-  const isAuthRoute = authRoutes.includes(nextUrl.pathname)
+  const isApiAuthRoute = nextUrl.pathname.startsWith(route.apiAuthPrefix)
+  const isPublicRoute = route.publicRoutes.includes(nextUrl.pathname)
+  const isAuthRoute = route.authRoutes.includes(nextUrl.pathname)
+
+  if (isApiAuthRoute) return NextResponse.next()
+
   if (isAuthRoute || isPublicRoute) {
     if (isLoggedIn) {
-      return NextResponse.redirect(
-        new URL(DEFAULT_REDIRECT, nextUrl).toString(),
-      )
+      return NextResponse.redirect(new URL(DEFAULT_REDIRECT, nextUrl))
     }
     return NextResponse.next()
   }

@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
         hostname: "prepmedics.blob.core.windows.net",
         pathname: "/prepmedics/**",
       },
+      {
+        hostname: "lh3.googleusercontent.com",
+      },
     ],
   },
 }
