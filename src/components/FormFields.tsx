@@ -48,7 +48,7 @@ export function FieldLabel(props: {
 export function InputField<F extends FieldValues>(props: {
   control: Control<F>
   name: Path<F>
-  label: React.ReactNode
+  label?: React.ReactNode
   placeholder?: string
   required?: boolean
   type?: string
@@ -62,7 +62,9 @@ export function InputField<F extends FieldValues>(props: {
       render={({ field }) => (
         <FormItem>
           <label className="flex flex-col gap-2">
-            <FieldLabel required={props.required}>{props.label}</FieldLabel>
+            {props.label && (
+              <FieldLabel required={props.required}>{props.label}</FieldLabel>
+            )}
             <FormControl>
               <Input
                 {...field}

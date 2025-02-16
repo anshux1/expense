@@ -32,6 +32,16 @@ body {
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
+    --chart-income-1: 139 65% 20%;
+    --chart-income-2: 140 74% 44%;
+    --chart-income-3: 142 88% 28%;
+    --chart-income-4: 137 55% 15%;
+    --chart-income-5: 141 40% 9%;
+    --chart-expense-1: 347 77% 50%;
+    --chart-expense-2: 352 83% 91%;
+    --chart-expense-3: 350 80% 72%;
+    --chart-expense-4: 351 83% 82%;
+    --chart-expense-5: 349 77% 62%;
     --radius: 0.5rem;
   }
   .dark {
@@ -59,6 +69,16 @@ body {
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    --chart-income-1: 142 88% 28%;
+    --chart-income-2: 139 65% 20%;
+    --chart-income-3: 140 74% 24%;
+    --chart-income-4: 137 55% 15%;
+    --chart-income-5: 141 40% 9%;
+    --chart-expense-1: 347 77% 50%;
+    --chart-expense-2: 349 77% 62%;
+    --chart-expense-3: 350 80% 72%;
+    --chart-expense-4: 351 83% 82%;
+    --chart-expense-5: 352 83% 91%;
   }
 }
 
@@ -69,4 +89,15 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Hide arrows for number inputs */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* Remove arrow buttons in Firefox */
 }
