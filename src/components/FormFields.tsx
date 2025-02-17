@@ -216,7 +216,6 @@ export function SelectField<F extends FieldValues>(props: {
               </SelectContent>
             </Select>
           </FormControl>
-          <FormMessage />
         </FormItem>
       )}
     />

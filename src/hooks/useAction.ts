@@ -7,9 +7,9 @@ type Action<TInput, TOutput> = (
 ) => Promise<ActionState<TInput, TOutput>>
 
 interface useActionProps<TOutput> {
-  onSuccess: (data: TOutput) => void
-  onError: (error: string) => void
-  onComplete: () => void
+  onSuccess?: (data: TOutput) => void
+  onError?: (error: string) => void
+  onComplete?: () => void
 }
 
 export const useAction = <TInput, TOutput>(
@@ -32,7 +32,7 @@ export const useAction = <TInput, TOutput>(
         setFieldErrors(result.FieldErrors)
         if (result.error) {
           setError(result.error)
-          options.onError(result.error)
+          if (options.onError) options.onError(result.error)
         }
         if (result.data) {
           setData(result.data)

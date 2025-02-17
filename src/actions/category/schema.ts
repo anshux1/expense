@@ -10,3 +10,7 @@ export const deleteCategorySchema = z.object({
   name: z.string().min(3).max(20),
   type: z.enum(["income", "expense"]),
 })
+
+export const getCategoriesSchema = z.object({
+  type: z.enum(["income", "expense"], { message: "Invalid type" }),
+})

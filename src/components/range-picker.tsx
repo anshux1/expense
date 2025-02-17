@@ -1,17 +1,15 @@
 "use client"
 
-import { useState } from "react"
-import { differenceInDays, startOfMonth } from "date-fns"
+import { timeRange } from "@/store/timeRange"
+import { differenceInDays } from "date-fns"
+import { useAtom } from "jotai"
 import { toast } from "sonner"
 
 import { MAX_DATE_RANGE_DAYS } from "@/lib/constants"
 import { DateRangePicker } from "./ui/date-range-picker"
 
 export const RangePicker = () => {
-  const [dateRange, setDateRange] = useState<{ from: Date; to: Date }>({
-    from: startOfMonth(new Date()),
-    to: new Date(),
-  })
+  const [dateRange, setDateRange] = useAtom(timeRange)
 
   return (
     <DateRangePicker

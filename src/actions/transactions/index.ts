@@ -26,10 +26,12 @@ const createTransactionHandler = async (
     const { type, amount, categoryName, date, description } = values
     const category = await prisma.category.findFirst({
       where: {
-        userId,
         name: categoryName,
+        OR: [{ userId }, { public: true }],
       },
     })
+    console.log(category)
+    console.log(values)
 
     if (!category) {
       return { error: "Category not found" }
@@ -37,7 +39,7 @@ const createTransactionHandler = async (
     const result = await prisma.$transaction(async (tx) => {
       const transaction = await tx.transaction.create({
         data: {
-          userId: "",
+          userId,
           amount,
           description: description || "",
           date,
@@ -53,11 +55,11 @@ const createTransactionHandler = async (
             day: date.getUTCDate(),
             month: date.getUTCMonth(),
             year: date.getUTCFullYear(),
-            userId: "",
+            userId,
           },
         },
         create: {
-          userId: "",
+          userId,
           day: date.getUTCDate(),
           month: date.getUTCMonth(),
           year: date.getUTCFullYear(),
@@ -77,13 +79,13 @@ const createTransactionHandler = async (
       tx.yearHistory.upsert({
         where: {
           month_year_userId: {
-            userId: "",
+            userId,
             month: date.getUTCMonth(),
             year: date.getUTCFullYear(),
           },
         },
         create: {
-          userId: "",
+          userId,
           month: date.getUTCMonth(),
           year: date.getUTCFullYear(),
           expense: type === "expense" ? amount : 0,
@@ -102,7 +104,8 @@ const createTransactionHandler = async (
     })
     revalidatePath("/dashboard")
     return { data: result }
-  } catch {
+  } catch (error) {
+    console.log(error)
     return { error: "Error creating transaction!" }
   }
 }

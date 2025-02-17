@@ -26,12 +26,12 @@ export default function page() {
           <RangePicker />
         </CardContent>
       </Card>
-      <div className="mx-auto my-2 max-w-7xl shrink-0 grid-cols-6 gap-4 transition-[width,height] ease-linear lg:grid">
-        <div className="col-span-4 flex flex-col gap-4">
+      <div className="mx-auto my-2 max-w-7xl shrink-0 grid-cols-6 gap-2 space-y-2 transition-[width,height] ease-linear lg:grid lg:space-y-0">
+        <div className="col-span-4 flex flex-col gap-2">
           <BalanceCard />
           <RecentTransactions />
         </div>
-        <div className="col-span-2 flex flex-col gap-4">
+        <div className="col-span-2 flex flex-col gap-2">
           <CategoryCard />
         </div>
       </div>

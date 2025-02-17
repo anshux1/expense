@@ -25,7 +25,7 @@ export default function TransactionAddModal() {
             New Transaction
           </ModalTitle>
         </ModalHeader>
-        <ModalBody className="mx-auto space-y-6 pb-4 text-center sm:text-left">
+        <ModalBody className="mx-auto space-y-6 pb-4 text-center sm:pb-0 sm:text-left">
           <TransactionAddForm />
         </ModalBody>
       </ModalContent>

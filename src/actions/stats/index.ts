@@ -6,13 +6,10 @@ import { auth } from "@/lib/auth"
 import prisma from "@/db"
 import { InputTypeGetStats } from "./types"
 
-export const getBalanceCard = async ({ to, from }: InputTypeGetStats) => {
+export const getBalanceStats = async ({ to, from }: InputTypeGetStats) => {
   try {
     const session = await auth.api.getSession({ headers: await headers() })
-    if (!session?.session || !session.user) {
-      return { error: "Unauthorized" }
-    }
-    const userId = session.user.id
+    const userId = session?.user.id
     const totol = await prisma.transaction.groupBy({
       by: ["type"],
       where: {
@@ -38,10 +35,7 @@ export const getBalanceCard = async ({ to, from }: InputTypeGetStats) => {
 
 export const getCategoryStats = async ({ from, to }: InputTypeGetStats) => {
   const session = await auth.api.getSession({ headers: await headers() })
-  if (!session?.session || !session.user) {
-    return { error: "Unauthorized" }
-  }
-  const userId = session.user.id
+  const userId = session?.user.id
   const data = await prisma.transaction.groupBy({
     by: ["type", "category", "categoryIcon"],
     where: {

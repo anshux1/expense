@@ -1,16 +1,22 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { DollarSign, Mail, TrendingDown, TrendingUp } from "lucide-react"
 import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 
+import { Category } from "@prisma/client"
+import { useAction } from "@/hooks/useAction"
 import { Button } from "@/components/ui/button"
 import FluidTabs from "@/components/ui/fluid-tabs"
 import { Form } from "@/components/ui/form"
-import { DateField, InputField } from "@/components/FormFields"
+import { DateField, InputField, SelectField } from "@/components/FormFields"
+import { getCategories } from "@/actions/category"
 import { createTransaction } from "@/actions/transactions"
 import { createTransactionSchema } from "@/actions/transactions/schema"
 import { InputTypeCreateTransaction } from "@/actions/transactions/types"
+import { ModalClose } from "../ui/modal"
 
 export const TransactionsTabs = [
   {
@@ -26,6 +32,7 @@ export const TransactionsTabs = [
 ]
 
 export default function TransactionAddForm() {
+  const [categories, setCategories] = useState<Category[]>([])
   const form = useForm<InputTypeCreateTransaction>({
     resolver: zodResolver(createTransactionSchema),
     defaultValues: {
@@ -36,11 +43,35 @@ export default function TransactionAddForm() {
     },
   })
   const activeTab = form.getValues("type")
-  const onSubmit = (values: InputTypeCreateTransaction) =>
-    createTransaction(values)
+
+  const type = form.getValues("type")
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const categories = await getCategories({ type })
+      if (categories) {
+        setCategories(categories)
+      }
+    }
+    fetchCategories()
+  }, [type])
+
+  const { execute, isLoading } = useAction(createTransaction, {
+    onSuccess: () => {
+      form.reset()
+      toast.success("Transaction added successfully")
+    },
+    onError: (error) => {
+      toast.error(error)
+    },
+  })
+  const onSubmit = (values: InputTypeCreateTransaction) => execute(values)
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex flex-col space-y-5"
+      >
         <div className="flex w-full items-center text-center text-4xl">
           <DollarSign size={40} />
           <InputField
@@ -78,14 +109,35 @@ export default function TransactionAddForm() {
             control={form.control}
             name="date"
           />
+          <SelectField
+            control={form.control}
+            name="categoryName"
+            label="Category"
+            placeholder="Select category"
+            options={categories.map((item) => ({
+              label: `${item.icon} ${item.name}`,
+              value: item.name,
+            }))}
+          />
         </div>
-        <Button
-          type="submit"
-          className="z-[200] w-full rounded-full"
-          disabled={true}
-        >
-          {true ? "Adding..." : "Add Transaction"}
-        </Button>
+        <div className="flex gap-2 self-end">
+          <ModalClose asChild>
+            <Button
+              variant="secondary"
+              type="submit"
+              className="w-full sm:w-auto"
+            >
+              Cancel
+            </Button>
+          </ModalClose>
+          <Button
+            type="submit"
+            className="w-full sm:w-auto"
+            disabled={isLoading}
+          >
+            {isLoading ? "Please wait ..." : "Continue"}
+          </Button>
+        </div>
       </form>
     </Form>
   )

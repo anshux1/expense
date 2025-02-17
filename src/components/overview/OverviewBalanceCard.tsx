@@ -1,3 +1,8 @@
+"use client"
+
+import { useEffect, useState } from "react"
+import { timeRange } from "@/store/timeRange"
+import { useAtomValue } from "jotai"
 import { ArrowDownRight, ArrowUpRight } from "lucide-react"
 
 import {
@@ -8,15 +13,36 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import TransactionAddModal from "@/components/transaction/TransactionAddModal"
+import { getBalanceStats } from "@/actions/stats"
 
 export const BalanceCard = () => {
+  const [stats, setStats] = useState<{ income: number; expense: number }>({
+    income: 0,
+    expense: 0,
+  })
+  const value = useAtomValue(timeRange)
+  useEffect(() => {
+    const fetchData = async () => {
+      const stats = await getBalanceStats({
+        to: value.to,
+        from: new Date(2025),
+      })
+      if (stats.data) {
+        setStats({
+          income: stats.data.income,
+          expense: stats.data.expense,
+        })
+      }
+    }
+    fetchData()
+  }, [value])
+  const balance = stats.income - stats.expense
   return (
     <Card>
       <CardHeader className="flex w-full flex-row justify-between">
         <div>
           <p className="mb-1 text-sm text-muted-foreground">My Balance</p>
-          <CardTitle className="inline">$66,000.00</CardTitle>
-          <span className="ml-3 inline text-xs text-emerald-500">+45.2%</span>
+          <CardTitle className="inline">{balance}</CardTitle>
           <CardDescription className="mt-1 text-xs text-muted-foreground">
             Your Balance in Month
           </CardDescription>
@@ -35,7 +61,7 @@ export const BalanceCard = () => {
               <div>
                 <p className="mb-1 text-sm font-medium">Income</p>
                 <div className="flex items-baseline gap-2">
-                  <h3 className="text-2xl font-bold">$44,000.00</h3>
+                  <h3 className="text-2xl font-bold">{stats?.income}</h3>
                 </div>
               </div>
             </div>
@@ -48,8 +74,7 @@ export const BalanceCard = () => {
               <div>
                 <p className="mb-1 text-sm font-medium">Expends</p>
                 <div className="flex items-baseline gap-2">
-                  <h3 className="text-2xl font-bold">$22,000.00</h3>
-                  <p className="text-sm text-destructive">+36.1%</p>
+                  <h3 className="text-2xl font-bold">{stats?.expense}</h3>
                 </div>
               </div>
             </div>

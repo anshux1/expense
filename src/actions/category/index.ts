@@ -10,9 +10,25 @@ import { createCategorySchema, deleteCategorySchema } from "./schema"
 import {
   InputTypeCreateCategory,
   InputTypeDeleteCategory,
+  InputTypeGetCategories,
   ReturnTypeCreateCategory,
   ReturnTypeDeleteCategory,
 } from "./types"
+
+export const getCategories = async (values: InputTypeGetCategories) => {
+  const session = await auth.api.getSession({ headers: await headers() })
+  if (!session?.session || !session.user) {
+    return
+  }
+  const userId = session.user.id
+  const result = await prisma.category.findMany({
+    where: {
+      type: values.type,
+      OR: [{ userId }, { public: true }],
+    },
+  })
+  return result
+}
 
 const createCategoryHandler = async (
   values: InputTypeCreateCategory,
