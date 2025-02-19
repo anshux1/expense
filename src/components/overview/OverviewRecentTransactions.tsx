@@ -3,9 +3,9 @@ import { ArrowUpRight } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { DataTable } from "@/components/transaction/TransactionTable"
+import { Columns } from "@/components/transaction/TransactionTableColumn"
 import { ReturnTypeGetTransactions } from "@/db/types"
-import { DataTable } from "../transaction/TransactionTable"
-import { Columns } from "../transaction/TransactionTableColumn"
 
 export const RecentTransactions = ({
   transactions,
@@ -23,7 +23,7 @@ export const RecentTransactions = ({
           </Button>
         </Link>
       </CardHeader>
-      <CardContent className="max-h-96 px-5 pb-1.5">
+      <CardContent className="h-[21.2rem] px-5 pb-1.5">
         <DataTable
           showHeader={false}
           pageSize={5}

@@ -30,6 +30,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import {
   Table,
   TableBody,
@@ -38,7 +39,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { ScrollArea, ScrollBar } from "../ui/scroll-area"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -60,7 +60,7 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize })
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
-  console.log(rowSelection)
+
   const table = useReactTable({
     data,
     columns,
@@ -81,8 +81,6 @@ export function DataTable<TData, TValue>({
       pagination,
     },
   })
-
-  console.log(rowSelection)
 
   return (
     <div className="max-w-sm sm:max-w-xl md:max-w-screen-2xl md:overflow-x-hidden">

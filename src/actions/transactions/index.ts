@@ -30,8 +30,6 @@ const createTransactionHandler = async (
         OR: [{ userId }, { public: true }],
       },
     })
-    console.log(category)
-    console.log(values)
 
     if (!category) {
       return { error: "Category not found" }
@@ -49,7 +47,7 @@ const createTransactionHandler = async (
         },
       })
 
-      tx.monthHistory.upsert({
+      await tx.monthHistory.upsert({
         where: {
           day_month_year_userId: {
             day: date.getUTCDate(),
@@ -76,7 +74,7 @@ const createTransactionHandler = async (
         },
       })
 
-      tx.yearHistory.upsert({
+      await tx.yearHistory.upsert({
         where: {
           month_year_userId: {
             userId,
@@ -104,8 +102,7 @@ const createTransactionHandler = async (
     })
     revalidatePath("/overview")
     return { data: result }
-  } catch (error) {
-    console.log(error)
+  } catch {
     return { error: "Error creating transaction!" }
   }
 }

@@ -18,7 +18,6 @@ const createCategoryHandler = async (
   values: InputTypeCreateCategory,
 ): Promise<ReturnTypeCreateCategory> => {
   const session = await auth.api.getSession({ headers: await headers() })
-  console.log("Session:", session)
   if (!session?.session || !session.user) {
     return { error: "Unauthorized" }
   }

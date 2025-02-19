@@ -4,7 +4,7 @@ import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown } from "lucide-react"
 
 import { Transaction } from "@prisma/client"
-import { Badge } from "../ui/badge"
+import { Badge } from "@/components/ui/badge"
 
 export interface Transactions {
   id: string

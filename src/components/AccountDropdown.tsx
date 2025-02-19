@@ -33,7 +33,6 @@ export async function AccountDropdown() {
   const session = await auth.api.getSession({
     headers: await headers(),
   })
-  console.log(session)
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

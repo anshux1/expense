@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card"
 import { BalanceCard } from "@/components/overview/OverviewBalanceCard"
 import { CategoriesCard } from "@/components/overview/OverviewCategoryCard"
+import { OverviewHistory } from "@/components/overview/OverviewHistory"
 import { RecentTransactions } from "@/components/overview/OverviewRecentTransactions"
 import TransactionAddModal from "@/components/transaction/TransactionAddModal"
 import { getBalanceStats, getCategoryStats } from "@/db/data/stats"
@@ -45,6 +46,7 @@ export default async function page() {
           </div>
         </div>
       </div>
+      <OverviewHistory />
     </div>
   )
 }

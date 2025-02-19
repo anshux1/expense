@@ -7,15 +7,16 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
 import { Category } from "@prisma/client"
+import { DateToUTCDate } from "@/lib/utils"
 import { useAction } from "@/hooks/useAction"
 import { Button } from "@/components/ui/button"
 import FluidTabs from "@/components/ui/fluid-tabs"
 import { Form } from "@/components/ui/form"
+import { ModalClose } from "@/components/ui/modal"
 import { DateField, InputField, SelectField } from "@/components/FormFields"
 import { createTransaction } from "@/actions/transactions"
 import { createTransactionSchema } from "@/actions/transactions/schema"
 import { InputTypeCreateTransaction } from "@/actions/transactions/types"
-import { ModalClose } from "../ui/modal"
 import { getCategories } from "@/db/data/category"
 
 export const TransactionsTabs = [
@@ -48,15 +49,12 @@ export default function TransactionAddForm() {
   useEffect(() => {
     const fetchCategories = async () => {
       const categories = await getCategories({ type })
-      console.log("Category:", categories)
       if (categories) {
-        console.log(categories)
         setCategories(categories)
       }
     }
     fetchCategories()
   }, [type])
-  console.log(categories)
 
   const { execute, isLoading } = useAction(createTransaction, {
     onSuccess: () => {
@@ -67,7 +65,12 @@ export default function TransactionAddForm() {
       toast.error(error)
     },
   })
-  const onSubmit = (values: InputTypeCreateTransaction) => execute(values)
+  const onSubmit = (values: InputTypeCreateTransaction) => {
+    execute({
+      ...values,
+      date: DateToUTCDate(values.date),
+    })
+  }
 
   return (
     <Form {...form}>
