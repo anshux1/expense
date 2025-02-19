@@ -1,8 +1,5 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { timeRange } from "@/store/timeRange"
-import { useAtomValue } from "jotai"
 import { ArrowDownRight, ArrowUpRight } from "lucide-react"
 
 import {
@@ -12,31 +9,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import TransactionAddModal from "@/components/transaction/TransactionAddModal"
-import { getBalanceStats } from "@/actions/stats"
+import { ReturnTypeBalanceStats } from "@/db/types"
 
-export const BalanceCard = () => {
-  const [stats, setStats] = useState<{ income: number; expense: number }>({
-    income: 0,
-    expense: 0,
-  })
-  const value = useAtomValue(timeRange)
-  useEffect(() => {
-    const fetchData = async () => {
-      const stats = await getBalanceStats({
-        to: value.to,
-        from: new Date(2025),
-      })
-      if (stats.data) {
-        setStats({
-          income: stats.data.income,
-          expense: stats.data.expense,
-        })
-      }
-    }
-    fetchData()
-  }, [value])
-  const balance = stats.income - stats.expense
+interface Props {
+  data: ReturnTypeBalanceStats
+}
+
+export const BalanceCard = ({ data: { income, expense } }: Props) => {
+  const balance = income - expense
   return (
     <Card>
       <CardHeader className="flex w-full flex-row justify-between">
@@ -46,9 +26,6 @@ export const BalanceCard = () => {
           <CardDescription className="mt-1 text-xs text-muted-foreground">
             Your Balance in Month
           </CardDescription>
-        </div>
-        <div className="flex gap-3">
-          <TransactionAddModal />
         </div>
       </CardHeader>
       <CardContent>
@@ -61,7 +38,7 @@ export const BalanceCard = () => {
               <div>
                 <p className="mb-1 text-sm font-medium">Income</p>
                 <div className="flex items-baseline gap-2">
-                  <h3 className="text-2xl font-bold">{stats?.income}</h3>
+                  <h3 className="text-2xl font-bold">{income}</h3>
                 </div>
               </div>
             </div>
@@ -74,7 +51,7 @@ export const BalanceCard = () => {
               <div>
                 <p className="mb-1 text-sm font-medium">Expends</p>
                 <div className="flex items-baseline gap-2">
-                  <h3 className="text-2xl font-bold">{stats?.expense}</h3>
+                  <h3 className="text-2xl font-bold">{expense}</h3>
                 </div>
               </div>
             </div>

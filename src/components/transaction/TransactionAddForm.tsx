@@ -12,11 +12,11 @@ import { Button } from "@/components/ui/button"
 import FluidTabs from "@/components/ui/fluid-tabs"
 import { Form } from "@/components/ui/form"
 import { DateField, InputField, SelectField } from "@/components/FormFields"
-import { getCategories } from "@/actions/category"
 import { createTransaction } from "@/actions/transactions"
 import { createTransactionSchema } from "@/actions/transactions/schema"
 import { InputTypeCreateTransaction } from "@/actions/transactions/types"
 import { ModalClose } from "../ui/modal"
+import { getCategories } from "@/db/data/category"
 
 export const TransactionsTabs = [
   {
@@ -48,12 +48,15 @@ export default function TransactionAddForm() {
   useEffect(() => {
     const fetchCategories = async () => {
       const categories = await getCategories({ type })
+      console.log("Category:", categories)
       if (categories) {
+        console.log(categories)
         setCategories(categories)
       }
     }
     fetchCategories()
   }, [type])
+  console.log(categories)
 
   const { execute, isLoading } = useAction(createTransaction, {
     onSuccess: () => {

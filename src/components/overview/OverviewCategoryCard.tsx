@@ -1,35 +1,11 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { timeRange } from "@/store/timeRange"
-import { useAtomValue } from "jotai"
-
 import { TransactionType } from "@/lib/types"
 import { Card, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { getCategoryStats } from "@/actions/stats"
-import { ReturnTypeCategoryStats } from "@/actions/stats/types"
+import { ReturnTypeCategoryStats } from "@/db/types"
 
-export function CategoryCard() {
-  const [data, setData] = useState<ReturnTypeCategoryStats>()
-  const value = useAtomValue(timeRange)
-  useEffect(() => {
-    const fetchData = async () => {
-      const stats = await getCategoryStats({ from: value.from, to: value.to })
-      if (stats) {
-        setData(stats)
-      }
-    }
-    fetchData()
-  }, [value])
-  return (
-    <div className="w-full space-y-2">
-      <CategoriesCard type="income" data={data || []} />
-      <CategoriesCard type="expense" data={data || []} />
-    </div>
-  )
-}
 export function CategoriesCard({
   type,
   data,

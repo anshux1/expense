@@ -102,7 +102,7 @@ const createTransactionHandler = async (
       })
       return transaction
     })
-    revalidatePath("/dashboard")
+    revalidatePath("/overview")
     return { data: result }
   } catch (error) {
     console.log(error)
