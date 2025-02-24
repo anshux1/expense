@@ -14,6 +14,9 @@ export const getCategories = async (values: InputTypeGetCategories) => {
       type: values.type,
       OR: [{ userId }, { public: true }],
     },
+    orderBy: {
+      name: "asc",
+    },
   })
   return result
 }

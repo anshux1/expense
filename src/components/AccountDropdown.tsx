@@ -21,7 +21,7 @@ const items = {
     "Overview",
     "Budget",
     "Transactions",
-    "Goals",
+    "Categories",
     "Investment",
     "Recurring",
     "Report",
