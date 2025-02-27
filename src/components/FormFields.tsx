@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { ReactNode, useState } from "react"
 import Link from "next/link"
 import { format } from "date-fns"
 import { CalendarIcon, Eye, EyeOff } from "lucide-react"
@@ -31,6 +31,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
+import { RadioGroup, RadioGroupItem } from "./ui/radio-group"
 
 export function FieldLabel(props: {
   children?: React.ReactNode
@@ -160,9 +161,7 @@ export function DateField<F extends FieldValues>(props: {
                 mode="single"
                 selected={field.value}
                 onSelect={field.onChange}
-                disabled={(date) =>
-                  date > new Date() || date < new Date("1900-01-01")
-                }
+                disabled={(date) => date < new Date("1900-01-01")}
               />
             </PopoverContent>
           </Popover>
@@ -215,6 +214,55 @@ export function SelectField<F extends FieldValues>(props: {
                 </SelectGroup>
               </SelectContent>
             </Select>
+          </FormControl>
+        </FormItem>
+      )}
+    />
+  )
+}
+
+export interface RadioGroupFieldProps {
+  value: string
+}
+
+export function RadioGroupField<F extends FieldValues>(props: {
+  className?: string
+  control: Control<F>
+  name: Path<F>
+  options: string[]
+  label: ReactNode
+  placeholder?: string
+  required?: boolean
+}) {
+  return (
+    <FormField
+      control={props.control}
+      name={props.name}
+      render={({ field }) => (
+        <FormItem className="max-w-lg">
+          {props.label ? <FieldLabel>{props.label}</FieldLabel> : null}
+          <FormControl>
+            <RadioGroup
+              onValueChange={(value) => field.onChange(value)}
+              defaultValue={field.value}
+              className="grid grid-cols-4 gap-2"
+            >
+              {props.options.map((item, index) => (
+                <FormItem key={index}>
+                  <FormLabel className="relative flex cursor-pointer flex-col items-center gap-3 rounded-lg border border-input px-2 py-3 text-center shadow-sm shadow-black/5 outline-offset-2 transition-colors has-[[data-disabled]]:cursor-not-allowed has-[[data-state=checked]]:border-ring has-[[data-state=checked]]:bg-accent has-[[data-disabled]]:opacity-50 has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-ring/70">
+                    <FormControl>
+                      <RadioGroupItem
+                        className="sr-only after:absolute after:inset-0"
+                        value={item}
+                      />
+                    </FormControl>
+                    <p className="text-sm font-medium leading-none text-foreground">
+                      {item.charAt(0).toUpperCase() + item.slice(1)}
+                    </p>
+                  </FormLabel>
+                </FormItem>
+              ))}
+            </RadioGroup>
           </FormControl>
         </FormItem>
       )}

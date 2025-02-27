@@ -24,6 +24,7 @@ model User {
   sessions      Session[]
   accounts      Account[]
   Transactions  Transaction[]
+  Budget        Budget[]
 
   @@unique([email])
   @@map("user")
@@ -96,6 +97,8 @@ model Transaction {
   userId      String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   type        String   @default("income")
+  budgetId    String?
+  budget      Budget?  @relation(fields: [budgetId], references: [id], onDelete: SetNull)
 
   category     String
   categoryIcon String
@@ -120,4 +123,18 @@ model YearHistory {
   expense Float
 
   @@id([month, year, userId])
+}
+
+model Budget {
+  id            String        @id @default(uuid())
+  budgetName    String
+  period        String
+  amount        Float
+  remaining     Float
+  beginningDate DateTime
+  isActive      Boolean       @default(true)
+  transactions  Transaction[]
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
