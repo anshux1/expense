@@ -1,23 +1,26 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { DollarSign, Mail, TrendingDown, TrendingUp } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
-import { Category } from "@prisma/client"
+import { Budget, Category } from "@prisma/client"
 import { DateToUTCDate } from "@/lib/utils"
 import { useAction } from "@/hooks/useAction"
 import { Button } from "@/components/ui/button"
 import FluidTabs from "@/components/ui/fluid-tabs"
 import { Form } from "@/components/ui/form"
 import { ModalClose } from "@/components/ui/modal"
-import { DateField, InputField, SelectField } from "@/components/FormFields"
+import {
+  DateField,
+  InputField,
+  RadioGroupField,
+  SelectField,
+} from "@/components/FormFields"
 import { createTransaction } from "@/actions/transactions"
 import { createTransactionSchema } from "@/actions/transactions/schema"
 import { InputTypeCreateTransaction } from "@/actions/transactions/types"
-import { getCategories } from "@/db/data/category"
 
 export const TransactionsTabs = [
   {
@@ -32,8 +35,18 @@ export const TransactionsTabs = [
   },
 ]
 
-export default function TransactionAddForm() {
-  const [categories, setCategories] = useState<Category[]>([])
+const defaultBudget = {
+  label: "No budget",
+  value: "",
+}
+
+export default function TransactionAddForm({
+  categories,
+  budgets,
+}: {
+  categories: Category[]
+  budgets: Budget[]
+}) {
   const form = useForm<InputTypeCreateTransaction>({
     resolver: zodResolver(createTransactionSchema),
     defaultValues: {
@@ -41,20 +54,11 @@ export default function TransactionAddForm() {
       amount: 0,
       description: "",
       date: new Date(Date.now()),
+      budget: "",
     },
   })
   const activeTab = form.getValues("type")
-
   const type = form.getValues("type")
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const categories = await getCategories({ type })
-      if (categories) {
-        setCategories(categories)
-      }
-    }
-    fetchCategories()
-  }, [type])
 
   const { execute, isLoading } = useAction(createTransaction, {
     onSuccess: () => {
@@ -120,12 +124,29 @@ export default function TransactionAddForm() {
             name="categoryName"
             label="Category"
             placeholder="Select category"
-            options={categories.map((item) => ({
-              label: `${item.icon} ${item.name}`,
-              value: item.name,
-            }))}
+            options={categories
+              .filter((item) => item.type === type)
+              .map((item) => ({
+                label: `${item.icon} ${item.name}`,
+                value: item.name,
+              }))}
           />
         </div>
+        {type === "expense" && (
+          <RadioGroupField
+            className="grid-cols-3"
+            control={form.control}
+            label="Budget"
+            name="budget"
+            options={[
+              defaultBudget,
+              ...budgets.map((item) => ({
+                label: item.budgetName,
+                value: item.id,
+              })),
+            ]}
+          />
+        )}
         <div className="flex gap-2 self-end">
           <ModalClose asChild>
             <Button

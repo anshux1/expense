@@ -44,6 +44,7 @@ const createTransactionHandler = async (
           type,
           category: category.name,
           categoryIcon: category.icon,
+          budgetId: values.budget,
         },
       })
 
@@ -98,11 +99,24 @@ const createTransactionHandler = async (
           },
         },
       })
+      if (values.budget?.length) {
+        await prisma.budget.update({
+          where: {
+            id: values.budget,
+          },
+          data: {
+            remaining: {
+              decrement: values.amount,
+            },
+          },
+        })
+      }
       return transaction
     })
     revalidatePath("/overview")
     return { data: result }
-  } catch {
+  } catch (error) {
+    console.log(error)
     return { error: "Error creating transaction!" }
   }
 }

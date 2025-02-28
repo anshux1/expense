@@ -223,13 +223,14 @@ export function SelectField<F extends FieldValues>(props: {
 
 export interface RadioGroupFieldProps {
   value: string
+  label: string
 }
 
 export function RadioGroupField<F extends FieldValues>(props: {
   className?: string
   control: Control<F>
   name: Path<F>
-  options: string[]
+  options: RadioGroupFieldProps[]
   label: ReactNode
   placeholder?: string
   required?: boolean
@@ -245,7 +246,7 @@ export function RadioGroupField<F extends FieldValues>(props: {
             <RadioGroup
               onValueChange={(value) => field.onChange(value)}
               defaultValue={field.value}
-              className="grid grid-cols-4 gap-2"
+              className={cn("grid gap-2", props.className)}
             >
               {props.options.map((item, index) => (
                 <FormItem key={index}>
@@ -253,11 +254,11 @@ export function RadioGroupField<F extends FieldValues>(props: {
                     <FormControl>
                       <RadioGroupItem
                         className="sr-only after:absolute after:inset-0"
-                        value={item}
+                        value={item.value}
                       />
                     </FormControl>
                     <p className="text-sm font-medium leading-none text-foreground">
-                      {item.charAt(0).toUpperCase() + item.slice(1)}
+                      {item.label}
                     </p>
                   </FormLabel>
                 </FormItem>

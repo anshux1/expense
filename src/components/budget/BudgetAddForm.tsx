@@ -15,6 +15,20 @@ import { createBudget } from "@/actions/budget"
 import { createBudgetSchema } from "@/actions/budget/schema"
 import { InputTypeCreateBudget } from "@/actions/budget/types"
 
+const period = [
+  { label: "Daily", value: "daily" },
+  { label: "Weekly", value: "weekly" },
+  { label: "Monthly", value: "monthly" },
+  { label: "Yearly", value: "yearly" },
+]
+
+const periodMap = {
+  daily: { days: 1, months: 0, years: 0 },
+  weekly: { days: 7, months: 0, years: 0 },
+  monthly: { days: 0, months: 1, years: 0 },
+  yearly: { days: 0, months: 0, years: 1 },
+}
+
 export default function BudgetAddForm() {
   const date = new Date()
   const [currentPeriod, setCurrentPeriod] = useState<{ from: Date; to: Date }>()
@@ -30,13 +44,6 @@ export default function BudgetAddForm() {
   const selectedPeriod = form.watch("period")
   const selectedBeginningDate = form.watch("beginningDate")
   useMemo(() => {
-    const periodMap = {
-      daily: { days: 1, months: 0, years: 0 },
-      weekly: { days: 7, months: 0, years: 0 },
-      monthly: { days: 0, months: 1, years: 0 },
-      yearly: { days: 0, months: 0, years: 1 },
-    }
-
     const { days, months, years } = periodMap[selectedPeriod] || {}
     if (days !== undefined) {
       setCurrentPeriod({
@@ -79,10 +86,11 @@ export default function BudgetAddForm() {
           type="text"
         />
         <RadioGroupField
+          className="grid-cols-4"
           control={form.control}
           label="Period"
           name="period"
-          options={["daily", "weekly", "monthly", "yearly"]}
+          options={period}
         />
         <div className="grid grid-cols-2 items-center gap-3">
           <div className="relative">

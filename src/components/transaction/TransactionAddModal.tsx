@@ -1,5 +1,3 @@
-"use client"
-
 import { Button } from "@/components/ui/button"
 import {
   Modal,
@@ -9,9 +7,13 @@ import {
   ModalTitle,
   ModalTrigger,
 } from "@/components/ui/modal"
+import { getBudgets } from "@/db/data/budget"
+import { getCategories } from "@/db/data/category"
 import TransactionAddForm from "./TransactionAddForm"
 
-export default function TransactionAddModal() {
+export default async function TransactionAddModal() {
+  const categories = await getCategories({})
+  const budgets = await getBudgets()
   return (
     <Modal>
       <ModalTrigger asChild>
@@ -26,7 +28,7 @@ export default function TransactionAddModal() {
           </ModalTitle>
         </ModalHeader>
         <ModalBody className="mx-auto space-y-6 pb-4 text-center sm:pb-0 sm:text-left">
-          <TransactionAddForm />
+          <TransactionAddForm budgets={budgets} categories={categories} />
         </ModalBody>
       </ModalContent>
     </Modal>

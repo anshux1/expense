@@ -6,6 +6,7 @@ export const createTransactionSchema = z.object({
   date: z.coerce.date(),
   categoryName: z.string(),
   type: z.union([z.literal("income"), z.literal("expense")]),
+  budget: z.string().optional(),
 })
 
 export const deleteTransactionSchema = z.object({
