@@ -1,8 +1,8 @@
 "use server"
 
-import { addDays, addMonths, addWeeks, addYears } from "date-fns"
 import cron from "node-cron"
 
+import { getEndDate, periodNextStartMapping } from "@/lib/utils"
 import prisma from "@/db"
 
 async function renewBudget() {
@@ -15,16 +15,7 @@ async function renewBudget() {
     const now = new Date()
     for (const budget of budgets) {
       if (now >= budget.beginningDate) {
-        let newStartDate = now
-        if (budget.period === "daily") {
-          newStartDate = addDays(now, 1)
-        } else if (budget.period === "weekly") {
-          newStartDate = addWeeks(now, 1)
-        } else if (budget.period === "monthly") {
-          newStartDate = addMonths(now, 1)
-        } else if (budget.period === "yearly") {
-          newStartDate = addYears(now, 1)
-        }
+        const newStartDate = periodNextStartMapping[budget.period](now)
 
         await prisma.budget.create({
           data: {
@@ -35,6 +26,10 @@ async function renewBudget() {
             remaining: budget.amount,
             beginningDate: newStartDate,
             isActive: true,
+            endDate: getEndDate({
+              beginningDate: newStartDate,
+              period: budget.period,
+            }),
           },
         })
         await prisma.budget.update({

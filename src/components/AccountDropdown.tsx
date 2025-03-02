@@ -62,7 +62,10 @@ export async function AccountDropdown() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           {items.links.map((item) => (
-            <Link key={item} href={item.at(0)?.toLowerCase() + item.slice(1)}>
+            <Link
+              key={item}
+              href={`/${item.at(0)?.toLowerCase() + item.slice(1)}`}
+            >
               <DropdownMenuItem>
                 <Image
                   src={`/links/${item}.svg`}
@@ -79,7 +82,10 @@ export async function AccountDropdown() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           {items.profile.map((item) => (
-            <Link key={item} href={item.at(0)?.toLowerCase() + item.slice(1)}>
+            <Link
+              key={item}
+              href={`/${item.at(0)?.toLowerCase() + item.slice(1)}`}
+            >
               <DropdownMenuItem>
                 <Image
                   src={`/links/${item}.svg`}

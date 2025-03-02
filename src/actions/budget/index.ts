@@ -5,6 +5,7 @@ import { headers } from "next/headers"
 
 import { auth } from "@/lib/auth"
 import { createAction } from "@/lib/create-action"
+import { getEndDate } from "@/lib/utils"
 import prisma from "@/db"
 import { createBudgetSchema } from "./schema"
 import { InputTypeCreateBudget, ReturnTypeCreateBudget } from "./types"
@@ -19,9 +20,11 @@ const createBudgetHandler = async (
     }
 
     const userId = session.user.id
+    const endDate = getEndDate(values)
     const result = await prisma.budget.create({
       data: {
         userId,
+        endDate: endDate,
         budgetName: values.name,
         amount: values.amount,
         remaining: values.amount,

@@ -6,6 +6,7 @@ import { DollarSign } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
+import { getEndDate } from "@/lib/utils"
 import { useAction } from "@/hooks/useAction"
 import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
@@ -44,15 +45,14 @@ export default function BudgetAddForm() {
   const selectedPeriod = form.watch("period")
   const selectedBeginningDate = form.watch("beginningDate")
   useMemo(() => {
-    const { days, months, years } = periodMap[selectedPeriod] || {}
+    const { days } = periodMap[selectedPeriod] || {}
     if (days !== undefined) {
       setCurrentPeriod({
         from: selectedBeginningDate,
-        to: new Date(
-          selectedBeginningDate.getUTCFullYear() + years,
-          selectedBeginningDate.getUTCMonth() + months,
-          selectedBeginningDate.getUTCDate() + days,
-        ),
+        to: getEndDate({
+          beginningDate: selectedBeginningDate,
+          period: selectedPeriod,
+        }),
       })
     }
   }, [selectedPeriod, selectedBeginningDate])

@@ -132,6 +132,7 @@ model Budget {
   amount        Float
   remaining     Float
   beginningDate DateTime
+  endDate       DateTime
   isActive      Boolean       @default(true)
   transactions  Transaction[]
 
