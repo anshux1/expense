@@ -3,11 +3,15 @@
 import { ReactNode } from "react"
 import { Toaster } from "sonner"
 
+import { EdgeStoreProvider } from "@/lib/edgestore"
+
 export default function RootProvider({ children }: { children: ReactNode }) {
   return (
     <>
-      {children}
-      <Toaster richColors position="top-center" />
+      <EdgeStoreProvider>
+        {children}
+        <Toaster richColors position="top-center" />
+      </EdgeStoreProvider>
     </>
   )
 }

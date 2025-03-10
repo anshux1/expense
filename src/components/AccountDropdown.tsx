@@ -17,15 +17,7 @@ import {
 import { Logout } from "./Logout"
 
 const items = {
-  links: [
-    "Overview",
-    "Budget",
-    "Transactions",
-    "Categories",
-    "Investment",
-    "Recurring",
-    "Report",
-  ],
+  links: ["Overview", "Budget", "Transactions", "Categories"],
   profile: ["Profile", "Settings"],
 }
 

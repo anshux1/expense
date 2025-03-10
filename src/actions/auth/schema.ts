@@ -12,3 +12,9 @@ export const signinSchema = z.object({
 export const signupSchema = signinSchema.extend({
   name: z.string().min(1, { message: "Name is required" }),
 })
+
+export const updateUserSchema = z.object({
+  image: z.string().url({ message: "Invalid image url" }).optional(),
+  name: z.string({ message: "Invalid name" }).optional(),
+  email: z.string({ message: "Invalid email" }).optional(),
+})
