@@ -156,14 +156,12 @@ export default function AccountInfo({ user }: { user: SessionUser }) {
               name="name"
               label="Name"
               placeholder="Enter your name"
-              required
             />
             <InputField
               control={form.control}
               name="email"
               label="Email"
               placeholder="Enter your email"
-              required
             />
           </CardContent>
           <CardFooter>

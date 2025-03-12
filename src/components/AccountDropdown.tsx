@@ -92,7 +92,7 @@ export async function AccountDropdown() {
           ))}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <Logout />
+        <Logout varient="nav" />
       </DropdownMenuContent>
     </DropdownMenu>
   )

@@ -18,3 +18,15 @@ export const updateUserSchema = z.object({
   name: z.string({ message: "Invalid name" }).optional(),
   email: z.string({ message: "Invalid email" }).optional(),
 })
+
+export const updatePasswordSchema = z
+  .object({
+    oldPassword: z.string().min(6, { message: "Min 6 chars." }),
+    newPassword: z.string().min(6, { message: "Min 6 chars." }),
+    confirmPassword: z.string().min(6, { message: "Min 6 chars." }),
+    revokeSessions: z.boolean().optional(),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  })

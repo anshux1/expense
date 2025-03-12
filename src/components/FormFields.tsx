@@ -31,6 +31,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
+import { Checkbox } from "./ui/checkbox"
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group"
 
 export function FieldLabel(props: {
@@ -78,6 +79,32 @@ export function InputField<F extends FieldValues>(props: {
             </FormControl>
             <FormMessage />
           </label>
+        </FormItem>
+      )}
+    />
+  )
+}
+
+export function CheckboxField<F extends FieldValues>(props: {
+  control: Control<F>
+  name: Path<F>
+  label: React.ReactNode
+  required?: boolean
+  disabled?: boolean
+  className?: string
+}) {
+  return (
+    <FormField
+      control={props.control}
+      name={props.name}
+      render={({ field }) => (
+        <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+          <FormControl>
+            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+          </FormControl>
+          <div className="space-y-1 leading-none">
+            <FormLabel>{props.label}</FormLabel>
+          </div>
         </FormItem>
       )}
     />
@@ -294,7 +321,6 @@ export function PasswordField<F extends FieldValues>(props: {
           label={props.label}
           placeholder={props.placeholder}
           type={isVisible ? "text" : "password"}
-          required
         />
         <button
           className="absolute inset-y-3 end-0 flex h-full w-9 items-center justify-center rounded-e-lg text-muted-foreground/80 outline-offset-2 transition-colors hover:text-foreground focus:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring/70 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
