@@ -13,6 +13,9 @@ const nextConfig: NextConfig = {
       {
         hostname: "files.edgestore.dev",
       },
+      {
+        hostname: "d1nbslm0j6pual.cloudfront.net",
+      },
     ],
   },
 }

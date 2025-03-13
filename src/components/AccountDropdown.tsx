@@ -34,7 +34,7 @@ export async function AccountDropdown() {
               <Image
                 src={
                   session.user.image ||
-                  "https://prepmedics.blob.core.windows.net/prepmedics/IMG-20210730-WA0004.jpg"
+                  `https://d1nbslm0j6pual.cloudfront.net/?text=${session.user.name.charAt(0)}&size=195&bg=ffffff`
                 }
                 className="size-5 rounded-full"
                 alt="Profile"

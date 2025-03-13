@@ -3,9 +3,10 @@ import z from "zod"
 import { User } from "@prisma/client"
 import { ActionState } from "@/lib/create-action"
 import {
+  changePasswordSchema,
+  setPasswordSchema,
   signinSchema,
   signupSchema,
-  updatePasswordSchema,
   updateUserSchema,
 } from "./schema"
 
@@ -16,8 +17,11 @@ export type InputTypeSignUp = z.infer<typeof signupSchema>
 
 export type InputTypeUpdateUser = z.infer<typeof updateUserSchema>
 
-export type InputTypeUpdatePassword = z.infer<typeof updatePasswordSchema>
-export type ReturnTypeUpdatePassword = ActionState<
-  InputTypeUpdatePassword,
+export type InputTypeChangePassword = z.infer<typeof changePasswordSchema>
+export type ReturnTypeChangePassword = ActionState<
+  InputTypeChangePassword,
   User
 >
+
+export type InputTypeSetPassword = z.infer<typeof setPasswordSchema>
+export type ReturnTypeSetPassword = ActionState<InputTypeSetPassword, string>

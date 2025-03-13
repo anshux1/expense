@@ -26,7 +26,7 @@ import {
 export default function DeleteAccount() {
   const handleDelete = async () => {
     try {
-      await authClient.deleteUser({ callbackURL: "/" })
+      await authClient.deleteUser({ callbackURL: "/signup" })
       toast.success("Account deleted successfully")
     } catch {
       toast.error("Failed to delete account")

@@ -1,5 +1,7 @@
 import z from "zod"
 
+const passwordSchema = z.string().min(6, { message: "Min 6 chars." })
+
 export const signinSchema = z.object({
   email: z.string().email({
     message: "Email is required",
@@ -19,11 +21,21 @@ export const updateUserSchema = z.object({
   email: z.string({ message: "Invalid email" }).optional(),
 })
 
-export const updatePasswordSchema = z
+export const setPasswordSchema = z
   .object({
-    oldPassword: z.string().min(6, { message: "Min 6 chars." }),
-    newPassword: z.string().min(6, { message: "Min 6 chars." }),
-    confirmPassword: z.string().min(6, { message: "Min 6 chars." }),
+    newPassword: passwordSchema,
+    confirmPassword: passwordSchema,
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  })
+
+export const changePasswordSchema = z
+  .object({
+    oldPassword: passwordSchema,
+    newPassword: passwordSchema,
+    confirmPassword: passwordSchema,
     revokeSessions: z.boolean().optional(),
   })
   .refine((data) => data.newPassword === data.confirmPassword, {
