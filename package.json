@@ -6,6 +6,8 @@
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "postinstall": "prisma generate && prisma db seed",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",

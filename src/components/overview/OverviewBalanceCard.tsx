@@ -2,6 +2,7 @@
 
 import { ArrowDownRight, ArrowUpRight } from "lucide-react"
 
+import { cn } from "@/lib/utils"
 import {
   Card,
   CardContent,
@@ -15,7 +16,7 @@ interface Props {
   data: ReturnTypeBalanceStats
 }
 
-export const BalanceCard = ({ data: { income, expense } }: Props) => {
+export const OverviewBalanceCard = ({ data: { income, expense } }: Props) => {
   const balance = income - expense
   return (
     <Card>
@@ -30,34 +31,45 @@ export const BalanceCard = ({ data: { income, expense } }: Props) => {
       </CardHeader>
       <CardContent>
         <div className="grid gap-3 md:grid-cols-2">
-          <Card className="bg-emerald-500/5 p-4">
-            <div className="flex items-center gap-3">
-              <div className="rounded-lg bg-emerald-400/10 p-2">
-                <ArrowUpRight className="size-5 text-emerald-500" />
-              </div>
-              <div>
-                <p className="mb-1 text-sm font-medium">Income</p>
-                <div className="flex items-baseline gap-2">
-                  <h3 className="text-2xl font-bold">{income}</h3>
-                </div>
-              </div>
-            </div>
-          </Card>
-          <Card className="bg-destructive/5 p-4">
-            <div className="flex items-center gap-3">
-              <div className="rounded-lg bg-destructive/10 p-2">
-                <ArrowDownRight className="size-5 text-destructive" />
-              </div>
-              <div>
-                <p className="mb-1 text-sm font-medium">Expends</p>
-                <div className="flex items-baseline gap-2">
-                  <h3 className="text-2xl font-bold">{expense}</h3>
-                </div>
-              </div>
-            </div>
-          </Card>
+          <BalanceCard type="income" data={income} />
+          <BalanceCard type="expense" data={expense} />
         </div>
       </CardContent>
+    </Card>
+  )
+}
+
+interface BalanceCardProps {
+  type: "income" | "expense"
+  data: number
+  className?: string
+}
+
+export const BalanceCard = ({ data, type, className }: BalanceCardProps) => {
+  return (
+    <Card
+      className={cn(
+        `${type === "income" ? "border-emerald-100 bg-emerald-500/10" : "border-destructive/10 bg-destructive/5"} p-4`,
+        className,
+      )}
+    >
+      <div className="flex items-center gap-3">
+        <div
+          className={`rounded-lg ${type === "income" ? "bg-emerald-500/20" : "bg-destructive/10"} p-2`}
+        >
+          {type === "income" ? (
+            <ArrowUpRight className="size-5 text-emerald-500" />
+          ) : (
+            <ArrowDownRight className="size-5 text-destructive" />
+          )}
+        </div>
+        <div>
+          <p className="mb-1 text-sm font-medium capitalize">{type}</p>
+          <div className="flex items-baseline gap-2">
+            <h3 className="text-2xl font-bold">{data}</h3>
+          </div>
+        </div>
+      </div>
     </Card>
   )
 }

@@ -44,7 +44,12 @@ const createTransactionHandler = async (
           type,
           category: category.name,
           categoryIcon: category.icon,
-          budgetId: values.type === "income" ? undefined : values.budget,
+          budgetId:
+            values.type === "income"
+              ? undefined
+              : values.budget?.length
+                ? values.budget
+                : undefined,
         },
       })
 

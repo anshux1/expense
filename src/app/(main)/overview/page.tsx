@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { BalanceCard } from "@/components/overview/OverviewBalanceCard"
+import { OverviewBalanceCard } from "@/components/overview/OverviewBalanceCard"
 import { CategoriesCard } from "@/components/overview/OverviewCategoryCard"
 import { OverviewHistory } from "@/components/overview/OverviewHistory"
 import { RecentTransactions } from "@/components/overview/OverviewRecentTransactions"
@@ -36,7 +36,7 @@ export default async function page() {
       </Card>
       <div className="mx-auto my-2 max-w-7xl shrink-0 grid-cols-6 gap-2 space-y-2 transition-[width,height] ease-linear lg:grid lg:space-y-0">
         <div className="col-span-4 flex flex-col gap-2">
-          <BalanceCard data={balanceStats} />
+          <OverviewBalanceCard data={balanceStats} />
           <RecentTransactions transactions={transactions} />
         </div>
         <div className="col-span-2 flex flex-col gap-2">

@@ -7,7 +7,7 @@ import { authClient } from "@/lib/auth.config"
 import { Button } from "@/components/ui/button"
 
 export const Auth0 = () => {
-  const handleAuth = async (provider: "google" | "github" | "twitter") => {
+  const handleAuth = async (provider: "google" | "github") => {
     await authClient.signIn.social(
       {
         provider,
@@ -40,20 +40,6 @@ export const Auth0 = () => {
             height={20}
           />
           Login with Google
-        </Button>
-        <Button
-          type="submit"
-          variant="outline"
-          className="w-full"
-          onClick={() => handleAuth("twitter")}
-        >
-          <Image
-            src="/social/twitter.svg"
-            alt="Google logo"
-            width={20}
-            height={20}
-          />
-          Login with X
         </Button>
         <Button
           type="submit"
