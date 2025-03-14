@@ -31,5 +31,5 @@ export const auth = betterAuth({
       clientSecret: process.env.GITHUB_CLIENT_SECRET || "",
     },
   },
-  baseURL: process.env.BETTER_AUTH_URL || "https://expensevault.tech",
+  baseURL: "https://expensevault.tech",
 })
