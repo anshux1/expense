@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ExpenseVault - Financial Budget Management
+
+ExpenseVault is a web application designed to help users manage their financial budgets efficiently. Users can track their income and expenses, set budgets for different time periods, and gain insights into their spending habits. The platform offers predefined categories for income and expenses, along with the flexibility to create custom categories.
+
+## Tech Stack
+
+- **Frontend**: Next.js 15
+- **Authentication**: BetterAuth
+- **Database**: PostgreSQL
+- **ORM**: Prisma
+- **UI Components**: shadcn
+
+## Features
+
+- **User Authentication**: Secure sign-in and sign-up with BetterAuth.
+- **Budget Management**: Users can create budgets for daily, weekly, monthly, and yearly periods.
+- **Expense Tracking**: Users can add their expenses to budgets to monitor spending.
+- **Income & Expense Categories**: Use predefined categories or create custom ones.
+- **Insights & Reports**: Get insights on spending habits and budget utilization.
 
 ## Getting Started
 
-First, run the development server:
+Follow these instructions to set up and run the project locally.
+
+
+## Running Locally
+
+> [!NOTE]  
+> This project uses [pnpm](https://pnpm.io/) only as a package manager.
+
+1. Clone the repository:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/anshux1/expense.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Navigate to the project directory:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+cd expense 
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+> [!NOTE]  
+> Your Docker Demon should be online
 
-## Learn More
+3. Running Script for Instant setup
 
-To learn more about Next.js, take a look at the following resources:
+```
+# Gives permission to execute a setup file
+chmod +x setup.sh
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Runs the setup script file
+./setup.sh
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Add Enviroment variables to .env
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This will start the development server on [http://localhost:3000](http://localhost:3000).

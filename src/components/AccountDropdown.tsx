@@ -18,7 +18,7 @@ import { Logout } from "./Logout"
 
 const items = {
   links: ["Overview", "Budget", "Transactions", "Categories"],
-  profile: ["Profile", "Settings"],
+  profile: ["Profile"],
 }
 
 export async function AccountDropdown() {
